@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom T-Shirt Designer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .tshirt-preview {
+      position: relative;
+      margin: 20px 0;
+    }
+
+    #tshirt-image {
+      max-width: 100%;
+    }
+
+    #design-preview {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 50%;
+      max-height: 50%;
+      pointer-events: none;
+    }
+
+    .controls label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    .controls input, .controls select {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Customize Your T-Shirt</h1>
+    <div class="tshirt-preview">
+      <img id="tshirt-image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcAAAAHACAYAAABq8M2GAAAAHGlET1QAAAACAAAAAAAAABwAAABwAAABwAAAAHcxm0EAAAKdSURBVHja7J3tbQpRFAXQb3PoPoj4H6j4HqAfN8AlHaBAEUd4AAIIySBKX6GA4dtUtvRdJeXytGv1cavJ25P8yxX8vKPpvFbJ6WBcDABAIBABAIBABAAEAgEAQEAgEAgEAgEAgEBQG6HydeZmuNm4Zdm2e4bfG5v3/n4dxN3N9jw2b9NrODtj9PAEA7l+ZydLmPpAB8yMErweQL8Z4keuAfAc3LaA9zO7ADyK/PdwAmX8CEAD6zICcDAABYIH3nigIwxoPziSDd1v0SwARciYCFwIwCK7rMDjAB9uMC8AECAQCAQCAQCAQCAQCAQCAQCAQCAQCAQGBH4L9GADEAsjSA2AhAAHENLnxn4ABwEAIAEAgEAgEAgEAgEAgEAgEAgEAgEAgEAgEAvAuBuIAHIEfzhgD5nxgAOq49j/LMJ6rBCIQAAAAASUVORK5CYII=" alt="T-shirt Preview">
+      <div id="design-preview"></div>
+    </div>
+    <div class="controls">
+      <label for="design-upload">Upload Your Design:</label>
+      <input type="file" id="design-upload" accept="image/*">
+      
+      <label for="tshirt-color">Choose T-Shirt Color:</label>
+      <select id="tshirt-color">
+        <option value="white">White</option>
+        <option value="black">Black</option>
+      </select>
+    </div>
+  </div>
+  <script>
+    document.getElementById('design-upload').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const designPreview = document.getElementById('design-preview');
+          designPreview.style.backgroundImage = `url(${e.target.result})`;
+          designPreview.style.backgroundSize = 'contain';
+          designPreview.style.backgroundRepeat = 'no-repeat';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('tshirt-color').addEventListener('change', function (event) {
+      const color = event.target.value;
+      const tshirtImage = document.getElementById('tshirt-image');
+      tshirtImage.src = color === 'white' 
+        ? 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcAAAAHACAYAAABq8M2GAAAAHGlET1QAAAACAAAAAAAAABwAAABwAAABwAAAAHcxm0EAAAKdSURBVHja7J3tbQpRFAXQb3PoPoj4H6j4HqAfN8AlHaBAEUd4AAIIySBKX6GA4dtUtvRdJeXytGv1cavJ25P8yxX8vKPpvFbJ6WBcDABAIBABAIBABAAEAgEAQEAgEAgEAgEAgEBQG6HydeZmuNm4Zdm2e4bfG5v3/n4dxN3N9jw2b9NrODtj9PAEA7l+ZydLmPpAB8yMErweQL8Z4keuAfAc3LaA9zO7ADyK/PdwAmX8CEAD6zICcDAABYIH3nigIwxoPziSDd1v0SwARciYCFwIwCK7rMDjAB9uMC8AECAQCAQCAQCAQCAQCAQCAQCAQCAQCAQGBH4L9GADEAsjSA2AhAAHENLnxn4ABwEAIAEAgEAgEAgEAgEAgEAgEAgEAgEAgEAgEAvAuBuIAHIEfzhgD5nxgAOq49j/LMJ6rBCIQAAAAASUVORK5CYII=' 
+        : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcAAAAHACAYAAABq8M2GAAAAHGlET1QAAAACAAAAAAAAABwAAABwAAABwAAAAHcxm0EAAAKRSURBVHja7J3tbQpRFEXQb/PokWh9AkV9AEKgfwi6QcLiJBQRBaJo3Lq3eaaTJ2RzL/6wckzOvft/+UUn69+Z8xegwEAIEAQCAQCAQCAQCAQCAQCAQCAQCAQCAQCAQCAQCkIPCLMy05X7+vA6ECIEAQCAQCAQCAQCAQCAQCAQCAQCAQCAQCAQFAAMAvIXp6+AAMAECATWveAAMAECi3XG9cSdufziQBwEAgEAgEAgEAgEAgEAgEAgEAgEAgEAgEAgDwnHmsUBkgATVYTCBABAN7kJAtjs//kQAAgUAgEAgEAgEAgEAgEAgEAgEAgEAgEAgEAgMgbzI7CUEoBAXdG6zIAgCwcoD7YE8DQAQCAQCAQCAQCAQCAQCAQCAQCAQCAQCAQAABz6lv08AEDDRNNA3yGwCBAMwECABGzEAfAAQCAQCAQCAQCAQCAQCAQCAQCAQCAQCAQDBrB7iQXnF/wIAAAAASUVORK5CYII=';
+    });
+  </script>
+</body>
+</html>
